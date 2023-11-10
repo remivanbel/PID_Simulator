@@ -364,43 +364,43 @@ class PID_Controller:
 
 
                 
+if __name__ == '__main__':
+    ##############################################################################################################################################
+    # Begin main code
 
-##############################################################################################################################################
-# Begin main code
+    # Create Controller object
+    controller = PID_Controller()
 
-# Create Controller object
-controller = PID_Controller()
+    # Create system object. Inputs are randomized, and scaled. Scaling factors were determined experimentally as a design space that generally aligns
+    # well with the test command set in command_list.
+    system_simulator = SMD_System_Sim(mass = np.random.rand()*100+50, k = np.random.rand()*5, c = np.random.rand()*10)
 
-# Create system object. Inputs are randomized, and scaled. Scaling factors were determined experimentally as a design space that generally aligns
-# well with the test command set in command_list.
-system_simulator = SMD_System_Sim(mass = np.random.rand()*100+50, k = np.random.rand()*5, c = np.random.rand()*10)
+    # Tune the control for step sizes of 1 to 50
+    controller = controller.auto_tune(system_simulator, 1, 50)
 
-# Tune the control for step sizes of 1 to 50
-controller = controller.auto_tune(system_simulator, 1, 50)
+    # Establish command list for test run of controller
+    command_list = [[0,50], [20,49], [40,25],[60,40],[80,15]]
 
-# Establish command list for test run of controller
-command_list = [[0,50], [20,49], [40,25],[60,40],[80,15]]
+    # Simulate the controllers response to the command_list
+    time_list, signal_list, x, target_list = controller.run_simulation(system_simulator, 100, command_list)
 
-# Simulate the controllers response to the command_list
-time_list, signal_list, x, target_list = controller.run_simulation(system_simulator, 100, command_list)
+    # Plot target, response, and signal of test run
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True, constrained_layout=True)
 
-# Plot target, response, and signal of test run
-fig, (ax1, ax2) = plt.subplots(2, sharex=True, constrained_layout=True)
+    ax1.plot(time_list, target_list, color='#7c8994', label='Target')
+    ax1.plot(time_list, x, color='#296ca3', alpha=0.7, label='Position')
 
-ax1.plot(time_list, target_list, color='#7c8994', label='Target')
-ax1.plot(time_list, x, color='#296ca3', alpha=0.7, label='Position')
+    ax1.legend()
+    ax1.set_ylabel('Position')
+    ax1.set_title('Target and Position')
 
-ax1.legend()
-ax1.set_ylabel('Position')
-ax1.set_title('Target and Position')
+    ax2.plot(time_list, signal_list, color='#296ca3')
+    ax2.set_ylabel('Signal')
+    ax2.set_title('Controller Signal, max = ' + str(controller.max_signal))
 
-ax2.plot(time_list, signal_list, color='#296ca3')
-ax2.set_ylabel('Signal')
-ax2.set_title('Controller Signal, max = ' + str(controller.max_signal))
+    ax2.set_xlabel('Time')
 
-ax2.set_xlabel('Time')
+    fig.suptitle('Simulated System: Mass = {}, k = {},  c = {}'.format(round(system_simulator.mass, 2), round(system_simulator.k, 2), round(system_simulator.c,2)))
 
-fig.suptitle('Simulated System: Mass = {}, k = {},  c = {}'.format(round(system_simulator.mass, 2), round(system_simulator.k, 2), round(system_simulator.c,2)))
-
-plt.show(block=True)
+    plt.show(block=True)
 

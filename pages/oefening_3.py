@@ -6,7 +6,7 @@ st.set_page_config(page_title="Plotting Demo", page_icon="📈")
 
 # Begin main code
 kp = st.number_input('Waarde voor Kp', step=1)
-ki = st.number_input('Waarde voor Ki', step=1)
+ki = st.number_input('Waarde voor Ki')
 kd = 0
 # Create Controller object
 controller = PID_Controller(kp, ki, kd)

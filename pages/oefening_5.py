@@ -6,10 +6,10 @@ st.set_page_config(page_title="Plotting Demo", page_icon="📈")
 
 # Begin main code
 kp = st.number_input('Waarde voor Kp')
-ki = st.number_input('Waarde voor Ki')
-kd = st.number_input('Waarde voor Kd')
+Ti = st.number_input('Waarde voor Ti', value=10000)
+Td = st.number_input('Waarde voor Td', value=0)
 # Create Controller object
-controller = PID_Controller(kp, ki, kd)
+controller = PID_Controller(kp, Ti=Ti, Td=Td)
 system_simulator = SMD_System_Sim(mass = 10, k = 0.5, c = 10)
 
 p = make_chart(controller, system_simulator)

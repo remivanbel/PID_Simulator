@@ -57,10 +57,16 @@ class PID_Controller:
     # frequently the controller can adjust the signal. In a practical application this would equate to a 
     # maximum speed/torque/force of a motor or actuator element and the sampling rate of a digital controller device.
 
-    def __init__(self, kp=1, ki=0, kd=0, max_signal=1000):
+    def __init__(self, kp=1, ki=0, kd=0, Ti=0, Td=0, max_signal=1000):
         self.kp = kp
-        self.ki = ki
-        self.kd = kd
+        if Ti!=0:
+            self.ki = kp/Ti
+        else:
+            self.ki = ki
+        if Td !=0:
+            self.kd = kp*Td
+        else:
+            self.kd = kd
 
         self.target = 0
         self.signal = 0

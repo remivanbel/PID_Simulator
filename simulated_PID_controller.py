@@ -74,7 +74,7 @@ class PID_Controller:
         self.accumulator = 0
         self.last_reading = 0
 
-        self.sample_rate = 0.1
+        self.sample_rate = 0.01
         self.max_signal = max_signal
     
     # Set_new_target sets the target attribute and resets the held accumulator value. Resetting the accumulator
@@ -140,7 +140,7 @@ class PID_Controller:
         a = [system_simulator.get_acceleration(signal_list[0], v[0], x[0])]
 
         # Establish time step size for simulation. Time_step_size should always be smaller than self.sample_rate.
-        time_step_size = 0.01
+        time_step_size = 0.0001
 
         # Build list of time increments based upon the time_step_size. This list will be returned by the method to be used as the 
         # x-axis when plotting signal, target, or position

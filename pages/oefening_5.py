@@ -9,7 +9,7 @@ kp = st.number_input('Waarde voor Kp')
 Ti = st.number_input('Waarde voor Ti', value=10000.0)
 Td = st.number_input('Waarde voor Td', value=0.0)
 # Create Controller object
-controller = PID_Controller(kp, Ti=Ti, Td=Td)
+controller = PID_Controller(kp, Ti=Ti, Td=Td, max_signal=1000000000)
 system_simulator = SMD_System_Sim(mass = 1, k = 100, c = 2)
 
 p = make_chart(controller, system_simulator)

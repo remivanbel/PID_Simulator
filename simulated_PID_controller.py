@@ -74,7 +74,7 @@ class PID_Controller:
         self.accumulator = 0
         self.last_reading = 0
 
-        self.sample_rate = 0.1
+        self.sample_rate = 0.01
         self.max_signal = max_signal
     
     # Set_new_target sets the target attribute and resets the held accumulator value. Resetting the accumulator

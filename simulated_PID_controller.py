@@ -94,7 +94,7 @@ class PID_Controller:
         self.accumulator += error
 
         # Calculate signal based on PID coefficients
-        self.signal = self.kp * error + self.ki * self.accumulator + self.kd * (feedback_value - self.last_reading)/self.sample_rate
+        self.signal = self.kp * error + self.ki * self.accumulator - self.kd * (feedback_value - self.last_reading)/self.sample_rate
         
         # If caluclated signal exceeds max_signal, then set signal to max_signal value. Do this in both positive
         # and negative directions
